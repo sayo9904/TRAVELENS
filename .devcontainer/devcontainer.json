@@ -1,0 +1,31 @@
+{
+  "name": "flutter-devenv",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postStartCommand": "flutter pub get",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "Dart-Code.dart-code",
+        "Dart-Code.flutter"
+      ],
+      "settings": {
+        "editor.tabSize": 2,
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "markdown.extension.toc.updateOnSave": true,
+        "markdown.extension.toc.levels": "2..4",
+        "[dockerfile]": {
+          "editor.tabSize": 4,
+          "editor.quickSuggestions": {
+            "strings": true
+          },
+          "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+        }
+      }
+    }
+  }
+}
