@@ -25,6 +25,12 @@ WORKDIR $HOME
 
 # flutter setup
 ARG FLUTTER_VERSION=3.35.6
+RUN sudo apt-get update && sudo apt-get install -y \
+    curl \
+    unzip \
+    xz-utils \
+    zip \
+    libglu1-mesa
 RUN git clone -b $FLUTTER_VERSION https://github.com/flutter/flutter.git
 ENV FLUTTER_HOME=$HOME/flutter
 ENV PATH="$FLUTTER_HOME/bin:${PATH}"
