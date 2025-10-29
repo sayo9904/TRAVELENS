@@ -32,7 +32,7 @@ jobs:
                 }
               ]
             }' \
-            https://discord.com/api/webhooks/${{ env.DISCORD_WEBHOOK_ID }}/${{ env.DISCORD_SERVER_ID }}
+            https://discord.com/api/webhooks/${{ env.DISCORD_SERVER_ID }}/${{ env.DISCORD_WEBHOOK_ID }}
 
       - name: Send Discord Notification for Push/Merge
         if: ${{ github.event_name == 'push' }}
@@ -51,5 +51,5 @@ jobs:
                 }
               ]
             }' \
-            https://discord.com/api/webhooks/${{ env.DISCORD_WEBHOOK_ID }}/${{ env.DISCORD_SERVER_ID }}
+            https://discord.com/api/webhooks/${{ env.DISCORD_SERVER_ID }}/${{ env.DISCORD_WEBHOOK_ID }}
 
