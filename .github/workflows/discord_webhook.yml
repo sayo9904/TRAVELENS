@@ -1,0 +1,55 @@
+name: Discord Notification
+
+on:
+  pull_request:
+    types: [opened, reopened]
+  push:
+    branches:
+      - main
+
+env:
+  DISCORD_SERVER_ID: ${{ secrets.DISCORD_SERVER_ID }}
+  DISCORD_WEBHOOK_ID: ${{ secrets.DISCORD_WEBHOOK_ID }}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification for PR
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          curl \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "content": "📢 新しいプルリクエストが作成されました！",
+              "embeds": [
+                {
+                  "title": "プルリクエスト #'${{ github.event.number }}': ${{ github.event.pull_request.title }}",
+                  "url": "${{ github.event.pull_request.html_url }}",
+                  "description": "作成者: ${{ github.event.pull_request.user.login }}",
+                  "color": 0x6ab7ff
+                }
+              ]
+            }' \
+            https://discord.com/api/webhooks/${{ env.DISCORD_WEBHOOK_ID }}/${{ env.DISCORD_SERVER_ID }}
+
+      - name: Send Discord Notification for Push/Merge
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          curl \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "content": "✅ メインブランチにマージされました！",
+              "embeds": [
+                {
+                  "title": "メインブランチ更新",
+                  "url": "${{ github.event.compare }}",
+                  "description": "最新のコミット: ${{ github.event.head_commit.message }}",
+                  "color": 0x82ff92
+                }
+              ]
+            }' \
+            https://discord.com/api/webhooks/${{ env.DISCORD_WEBHOOK_ID }}/${{ env.DISCORD_SERVER_ID }}
+
